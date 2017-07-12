@@ -1,2 +1,5 @@
 # utils
-# This repo contains only utility class.
+# This repo contains following utility class.
+# 1. HTTPS
+# 2. Proprties
+# 3. String
