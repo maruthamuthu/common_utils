@@ -11,15 +11,22 @@ import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
+import com.core.strings.StringUtil;
+
+/**
+ * @author Maruthamuthu
+ *         The connector class is used to invoke the https connection and
+ *         return back the response as JSONObject.
+ */
 
 public class Connector
 {
 	private static Logger logger = Logger.getLogger(Connector.class.getName());
 
-
-	public static JSONObject invoke(HTTPProperties httpProperties) throws Exception
+	/*
+		This method is invoke the https connection based on HTTPProperties
+	 */
+	public static Object invoke(HTTPProperties httpProperties) throws Exception
 	{
 		URL url = new URL(httpProperties.getURLStringForInvoke());
 		HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -29,7 +36,10 @@ public class Connector
 		connection.setReadTimeout(HTTPConstants.HTTP_READ_TIME_OUT);
 		String params = httpProperties.getBodyParametersAsString();
 
-		if(StringUtils.isNotEmpty(params))
+		/*
+			If body params is not empty then will write into connection stream
+		 */
+		if(StringUtil.isNotEmpty(params))
 		{
 			byte[] postData = params.getBytes("UTF-8");
 			connection.setRequestProperty("charset", "UTF-8");
@@ -44,21 +54,30 @@ public class Connector
 		}
 
 		int returnCode = connection.getResponseCode();
+		String output;
 		if(returnCode != HttpsURLConnection.HTTP_OK && returnCode != HttpsURLConnection.HTTP_CREATED)
 		{
-			String output = convertStreamToString(connection.getErrorStream());
-			logger.log(Level.SEVERE, "Error while invoking API - {0}", output);
-			throw new Exception(output);
+			output = convertStreamToString(connection.getErrorStream());
+			logger.log(httpProperties.canThrowExceptionForErrorResponse() ? Level.SEVERE : Level.INFO, "Error while invoking API - {0}", output);
+			if(httpProperties.canThrowExceptionForErrorResponse())
+			{
+				throw new Exception(output);
+			}
 		}
-
-		String output = convertStreamToString(connection.getInputStream());
-		return new JSONObject(output);
+		else
+		{
+			output = convertStreamToString(connection.getInputStream());
+		}
+		return httpProperties.handleResponseType(output);
 	}
 
+	/*
+		This method is used to read a steam and convert into string
+	 */
 	private static String convertStreamToString(InputStream in) throws IOException
 	{
 		StringBuilder sb = new StringBuilder();
-		String content = null;
+		String content;
 		try(BufferedReader reader = new BufferedReader(new InputStreamReader(in)))
 		{
 			while((content = reader.readLine()) != null)

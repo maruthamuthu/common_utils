@@ -1,5 +1,10 @@
 package com.core.http;
 
+/**
+ * @author Maruthamuthu
+ *         This class is used to define a HTTP Constants
+ */
+
 public class HTTPConstants
 {
 	public static final int HTTP_READ = 0;
@@ -14,4 +19,7 @@ public class HTTPConstants
 
 	public static final int HTTP_CONNECTION_TIME_OUT = 300000;
 	public static final int HTTP_READ_TIME_OUT = 1000000;
+
+	public static final int RESPONSE_TYPE_STRING = 0;
+	public static final int RESPONSE_TYPE_JSON_OBJECT = 1;
 }

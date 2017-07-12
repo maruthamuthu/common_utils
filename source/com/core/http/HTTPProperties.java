@@ -3,7 +3,7 @@ package com.core.http;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.omg.CORBA.DynAnyPackage.InvalidValue;
+import org.json.JSONObject;
 
 /**
  * @author Maruthamuthu
@@ -16,18 +16,21 @@ public class HTTPProperties
 	private String url;
 	private int method;
 	private boolean canThrowExceptionForDuplicateParams = true;
+	private boolean canThrowExceptionForErrorResponse = true;
+
+	private int responseType;
 
 	public HTTPProperties()
 	{
 		params = new ArrayList<>();
 	}
 
-	public void setParameter(String key, Object value, boolean needAppendInBody) throws Exception
+	public void addParameter(String key, Object value, boolean needAppendInBody) throws Exception
 	{
 		addParameter(new HTTPParam(key, value, needAppendInBody));
 	}
 
-	public void setParameter(String key, Object value) throws Exception
+	public void addParameter(String key, Object value) throws Exception
 	{
 		addParameter(new HTTPParam(key, value));
 	}
@@ -41,7 +44,7 @@ public class HTTPProperties
 			{
 				if(canThrowExceptionForDuplicateParams)
 				{
-					throw new InvalidValue("Param name can't be duplicate");
+					throw new Exception("Param name can't be duplicate");
 				}
 				paramNeedToRemove = httpParam;
 				break;
@@ -94,6 +97,36 @@ public class HTTPProperties
 		this.canThrowExceptionForDuplicateParams = canThrowExceptionForDuplicateParams;
 	}
 
+	boolean canThrowExceptionForErrorResponse()
+	{
+		return canThrowExceptionForErrorResponse;
+	}
+
+	public void setThrowExceptionForErrorResponse(boolean canThrowExceptionForErrorResponse)
+	{
+		this.canThrowExceptionForErrorResponse = canThrowExceptionForErrorResponse;
+	}
+
+	private int getResponseType()
+	{
+		return responseType;
+	}
+
+	public void setResponseType(int responseType)
+	{
+		this.responseType = responseType;
+	}
+
+	private int getMethodType()
+	{
+		return method;
+	}
+
+	private List<HTTPParam> getParamList()
+	{
+		return params;
+	}
+
 	String getUrl()
 	{
 		return url;
@@ -118,7 +151,7 @@ public class HTTPProperties
 		StringBuilder sb = new StringBuilder();
 		char separator = '&';
 		char equal = '=';
-		for(HTTPParam param : params)
+		for(HTTPParam param : getParamList())
 		{
 			if((!needOnlyBodyParams && !param.isNeedAppendInBody()) || (needOnlyBodyParams && param.isNeedAppendInBody()))
 			{
@@ -133,7 +166,7 @@ public class HTTPProperties
 
 	String getMethodName()
 	{
-		switch(this.method)
+		switch(getMethodType())
 		{
 			case HTTPConstants.HTTP_READ:
 				return HTTPConstants.HTTP_METHOD_GET;
@@ -145,6 +178,19 @@ public class HTTPProperties
 				return HTTPConstants.HTTP_METHOD_PUT;
 			default:
 				return HTTPConstants.HTTP_METHOD_GET;
+		}
+	}
+
+	public Object handleResponseType(String response) throws Exception
+	{
+		switch(getResponseType())
+		{
+			case HTTPConstants.RESPONSE_TYPE_STRING:
+				return response;
+			case HTTPConstants.RESPONSE_TYPE_JSON_OBJECT:
+				return new JSONObject(response);
+			default:
+				return new JSONObject(response);
 		}
 	}
 }
