@@ -5,10 +5,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
-/*
-    @author Maruthamuthu
-	CoreProperties is a singleton class.
-	This is used to initialize the properties
+/**
+ * @author Maruthamuthu
+ *         CoreProperties is a singleton class.
+ *         This is used to initialize the properties for the whole project
  */
 
 public class CoreProperties extends Properties
@@ -16,7 +16,7 @@ public class CoreProperties extends Properties
 	private static volatile CoreProperties coreProperties;
 
 	/*
-    	This constructor validates whether coreProperties is initialized or not. If already initialized then error thrown.
+		This constructor validates whether coreProperties is initialized or not. If already initialized then error thrown.
     	This check needed to keep this class is singleton and can't violate singleton using java reflection.
  	*/
 	private CoreProperties() throws Exception

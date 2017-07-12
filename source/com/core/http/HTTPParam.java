@@ -2,7 +2,7 @@ package com.core.http;
 
 /**
  * @author Maruthamuthu
- * This class is used to initialise the HTTP Parameters
+ *         This class is used to initialise the HTTP Parameters
  */
 
 public class HTTPParam
@@ -24,19 +24,9 @@ public class HTTPParam
 		this.value = value;
 	}
 
-	public HTTPParam()
-	{
-
-	}
-
 	public String getName()
 	{
 		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
 	}
 
 	public Object getValue()
@@ -44,18 +34,9 @@ public class HTTPParam
 		return value;
 	}
 
-	public void setValue(Object value)
-	{
-		this.value = value;
-	}
-
 	public boolean isNeedAppendInBody()
 	{
 		return needAppendInBody;
 	}
 
-	public void setNeedAppendInBody(boolean needAppendInBody)
-	{
-		this.needAppendInBody = needAppendInBody;
-	}
 }
