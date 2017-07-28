@@ -14,3 +14,9 @@
       across the java application.
 ## 3. String
       The StringUtil class is used to hold the string utility functions.
+## 4. Exception
+        i. CoreException
+            This class is used to throw the error with error code, so that application can esily 
+            determine the exception reason using error code.
+        ii. ErrorConstants
+             This class is used to define a error constants
