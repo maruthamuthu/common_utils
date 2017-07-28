@@ -1,9 +1,12 @@
 package com.core.http;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
+
+import com.sun.istack.internal.NotNull;
 
 /**
  * @author Maruthamuthu
@@ -18,7 +21,7 @@ public class HTTPProperties
 	private boolean canThrowExceptionForDuplicateParams = true;
 	private boolean canThrowExceptionForErrorResponse = true;
 
-	private int responseType;
+	private int responseType = -1;
 
 	public HTTPProperties()
 	{
@@ -132,9 +135,39 @@ public class HTTPProperties
 		return url;
 	}
 
-	public void setUrl(String url)
+	public void setUrl(@NotNull String url) throws Exception
 	{
-		this.url = url;
+		if(url.indexOf('?') != -1)
+		{
+			parseParametersFromUrlString(url);
+		}
+		else
+		{
+			this.url = url;
+		}
+	}
+
+	private void parseParametersFromUrlString(String url) throws Exception
+	{
+		URL url1 = new URL(url);
+		this.url = (new StringBuilder().append(url1.getProtocol()).append("://").append(url1.getHost()).append(url1.getPath())).toString();
+		String[] parameters = url1.getQuery().split("&");
+		for(String param : parameters)
+		{
+			if(param.contains("="))
+			{
+				checkAndAddToParameterList(param);
+			}
+		}
+	}
+
+	private void checkAndAddToParameterList(String parameter) throws Exception
+	{
+		String[] keyVsValue = parameter.split("=");
+		if(keyVsValue.length == 2)
+		{
+			addParameter(keyVsValue[0], keyVsValue[1]);
+		}
 	}
 
 	String getURLStringForInvoke()
@@ -161,7 +194,7 @@ public class HTTPProperties
 				sb.append(separator);
 			}
 		}
-		return sb.substring(0, sb.length() - 1);
+		return sb.substring(0, (sb.length() > 0 ? sb.length() - 1 : 0));
 	}
 
 	String getMethodName()
