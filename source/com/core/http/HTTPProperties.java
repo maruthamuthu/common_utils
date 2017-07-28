@@ -1,11 +1,16 @@
 package com.core.http;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.core.CoreException;
+import com.core.ErrorConstants;
+import com.core.strings.StringUtil;
 import com.sun.istack.internal.NotNull;
 
 /**
@@ -20,25 +25,29 @@ public class HTTPProperties
 	private int method;
 	private boolean canThrowExceptionForDuplicateParams = true;
 	private boolean canThrowExceptionForErrorResponse = true;
+	private String userAgent;
+	private String contentType;
 
 	private int responseType = -1;
 
 	public HTTPProperties()
 	{
 		params = new ArrayList<>();
+		userAgent = HTTPConstants.DEFAULT_USER_AGENT;
+		contentType = HTTPConstants.DEFAULT_CONTENT_TYPE;
 	}
 
-	public void addParameter(String key, Object value, boolean needAppendInBody) throws Exception
+	public void addParameter(String key, Object value, boolean needAppendInBody) throws CoreException
 	{
 		addParameter(new HTTPParam(key, value, needAppendInBody));
 	}
 
-	public void addParameter(String key, Object value) throws Exception
+	public void addParameter(String key, Object value) throws CoreException
 	{
 		addParameter(new HTTPParam(key, value));
 	}
 
-	public void addParameter(HTTPParam param) throws Exception
+	public void addParameter(HTTPParam param) throws CoreException
 	{
 		HTTPParam paramNeedToRemove = null;
 		for(HTTPParam httpParam : params)
@@ -47,7 +56,7 @@ public class HTTPProperties
 			{
 				if(canThrowExceptionForDuplicateParams)
 				{
-					throw new Exception("Param name can't be duplicate");
+					throw new CoreException(ErrorConstants.PARAMETER_CAN_NOT_BE_DUPLICATE, "Param name can't be duplicate");
 				}
 				paramNeedToRemove = httpParam;
 				break;
@@ -135,7 +144,27 @@ public class HTTPProperties
 		return url;
 	}
 
-	public void setUrl(@NotNull String url) throws Exception
+	public String getUserAgent()
+	{
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent)
+	{
+		this.userAgent = userAgent;
+	}
+
+	public String getContentType()
+	{
+		return contentType;
+	}
+
+	public void setContentType(String contentType)
+	{
+		this.contentType = contentType;
+	}
+
+	public void setUrl(@NotNull String url) throws CoreException, MalformedURLException
 	{
 		if(url.indexOf('?') != -1)
 		{
@@ -147,7 +176,7 @@ public class HTTPProperties
 		}
 	}
 
-	private void parseParametersFromUrlString(String url) throws Exception
+	private void parseParametersFromUrlString(String url) throws CoreException, MalformedURLException
 	{
 		URL url1 = new URL(url);
 		this.url = (new StringBuilder().append(url1.getProtocol()).append("://").append(url1.getHost()).append(url1.getPath())).toString();
@@ -161,7 +190,7 @@ public class HTTPProperties
 		}
 	}
 
-	private void checkAndAddToParameterList(String parameter) throws Exception
+	private void checkAndAddToParameterList(String parameter) throws CoreException
 	{
 		String[] keyVsValue = parameter.split("=");
 		if(keyVsValue.length == 2)
@@ -214,16 +243,23 @@ public class HTTPProperties
 		}
 	}
 
-	public Object handleResponseType(String response) throws Exception
+	public Object handleResponseType(String response) throws CoreException
 	{
-		switch(getResponseType())
+		try
 		{
-			case HTTPConstants.RESPONSE_TYPE_STRING:
-				return response;
-			case HTTPConstants.RESPONSE_TYPE_JSON_OBJECT:
-				return new JSONObject(response);
-			default:
-				return new JSONObject(response);
+			switch(getResponseType())
+			{
+				case HTTPConstants.RESPONSE_TYPE_STRING:
+					return response;
+				case HTTPConstants.RESPONSE_TYPE_JSON_OBJECT:
+					return new JSONObject(response);
+				default:
+					return new JSONObject(response);
+			}
+		}
+		catch(JSONException e)
+		{
+			throw new CoreException(e.getMessage());
 		}
 	}
 }

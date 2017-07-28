@@ -2,6 +2,7 @@ package com.core;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -19,11 +20,11 @@ public class CoreProperties extends Properties
 		This constructor validates whether coreProperties is initialized or not. If already initialized then error thrown.
     	This check needed to keep this class is singleton and can't violate singleton using java reflection.
  	*/
-	private CoreProperties() throws Exception
+	private CoreProperties() throws CoreException, IOException
 	{
 		if(coreProperties != null)
 		{
-			throw new Exception("CoreProperties is a singleton class, so use getInstance() instead of new CoreProperties()");
+			throw new CoreException("CoreProperties is a singleton class, so use getInstance() instead of new CoreProperties()");
 		}
 		checkAndLoadProperties();
 	}
@@ -55,7 +56,7 @@ public class CoreProperties extends Properties
 		The checkAndLoadProperties() is used to load the properties from core.properties file
 		The core.properties is not mandatory, so that the file exists check added.
 	 */
-	private void checkAndLoadProperties() throws Exception
+	private void checkAndLoadProperties() throws CoreException, IOException
 	{
 		File propertyFile = new File("core.properties");
 		if(propertyFile.exists())
