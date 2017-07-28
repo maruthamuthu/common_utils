@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import com.core.CoreException;
 import com.core.strings.StringUtil;
 
 /**
@@ -26,12 +27,12 @@ public class Connector
 	/*
 		This method is invoke the https connection based on HTTPProperties
 	 */
-	public static Object invoke(HTTPProperties httpProperties) throws Exception
+	public static Object invoke(HTTPProperties httpProperties) throws CoreException, IOException
 	{
 		URL url = new URL(httpProperties.getURLStringForInvoke());
 		HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 		connection.setRequestMethod(httpProperties.getMethodName());
-		connection.setRequestProperty("User-Agent", "MM");
+		connection.setRequestProperty("User-Agent", httpProperties.getUserAgent());
 		connection.setConnectTimeout(HTTPConstants.HTTP_CONNECTION_TIME_OUT);
 		connection.setReadTimeout(HTTPConstants.HTTP_READ_TIME_OUT);
 		String params = httpProperties.getBodyParametersAsString();
@@ -45,7 +46,7 @@ public class Connector
 			connection.setRequestProperty("charset", "UTF-8");
 			connection.setDoOutput(true);
 			connection.setRequestProperty("Content-Length", Integer.toString(postData.length));
-			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			connection.setRequestProperty("Content-Type", httpProperties.getContentType());
 			try(DataOutputStream wr = new DataOutputStream(connection.getOutputStream()))
 			{
 				wr.write(postData);
@@ -61,7 +62,7 @@ public class Connector
 			logger.log(httpProperties.canThrowExceptionForErrorResponse() ? Level.SEVERE : Level.INFO, "Error while invoking API - {0}", output);
 			if(httpProperties.canThrowExceptionForErrorResponse())
 			{
-				throw new Exception(output);
+				throw new CoreException(returnCode, output);
 			}
 		}
 		else

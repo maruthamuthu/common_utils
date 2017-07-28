@@ -22,4 +22,7 @@ public class HTTPConstants
 
 	public static final int RESPONSE_TYPE_STRING = 0;
 	public static final int RESPONSE_TYPE_JSON_OBJECT = 1;
+
+	public static final String DEFAULT_USER_AGENT = "MM";
+	public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
 }
