@@ -1,5 +1,9 @@
 # utils
+
 ### This repo contains following utility class.
+##### [Download the latest utils jar](https://github.com/maruthamuthu/utils/files/1184260/utils-1.0.jar.zip)
+##### [Older version of utils jar](https://github.com/maruthamuthu/utils/issues/6)
+
 ## 1. HTTPS
       This package contains following classes.
          i.  HTTPParam
