@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.core.CoreException;
-import com.core.strings.StringUtil;
+import com.core.strings.StringsUtil;
 
 /**
  * @author Maruthamuthu
@@ -40,7 +40,7 @@ public class Connector
 		/*
 			If body params is not empty then will write into connection stream
 		 */
-		if(StringUtil.isNotEmpty(params))
+		if(StringsUtil.isNotEmpty(params))
 		{
 			byte[] postData = params.getBytes("UTF-8");
 			connection.setRequestProperty("charset", "UTF-8");

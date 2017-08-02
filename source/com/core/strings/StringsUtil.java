@@ -5,7 +5,7 @@ package com.core.strings;
  *         This class has a string utility methods.
  */
 
-public class StringUtil
+public class StringsUtil
 {
 	public static boolean isEmpty(CharSequence cs)
 	{
