@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import com.core.CoreException;
 import com.core.ErrorConstants;
-import com.core.strings.StringUtil;
 import com.sun.istack.internal.NotNull;
 
 /**
