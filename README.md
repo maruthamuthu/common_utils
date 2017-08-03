@@ -1,8 +1,8 @@
 # utils
 
 ### This repo contains following utility class.
-##### [Download the latest utils jar](https://github.com/maruthamuthu/utils/files/1194824/utils-1.0.jar.zip)
-##### [Older version of utils jar](https://github.com/maruthamuthu/utils/issues/6)
+##### [Download the latest utils jar](https://docs.zoho.com/file/3ory8edeb477a09644351b1c72b303831487f)
+##### [Older version of utils jar](https://github.com/maruthamuthu/utils/wiki/Util-jar-Downloads)
 
 ## 1. HTTPS
       This package contains following classes.
