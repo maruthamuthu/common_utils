@@ -67,22 +67,22 @@ public class StringAppender
 		builder.append(' ');
 	}
 
-	public void insertOnStart(Object value)
+	public void appendOnStart(Object value)
 	{
 		builder.insert(0, value);
 	}
 
-	public void insertOnEnd(Object value)
+	public void appendOnEnd(Object value)
 	{
 		builder.insert(builder.length() - 1, value);
 	}
 
-	public void insertOnStart(char value)
+	public void appendOnStart(char value)
 	{
 		builder.insert(0, value);
 	}
 
-	public void insertOnEnd(char value)
+	public void appendOnEnd(char value)
 	{
 		builder.insert(builder.length() - 1, value);
 	}
