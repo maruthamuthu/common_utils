@@ -1,7 +1,7 @@
 # utils
 
 ### This repo contains following utility class.
-##### [Download the latest utils jar](https://github.com/maruthamuthu/utils/files/1184260/utils-1.0.jar.zip)
+##### [Download the latest utils jar](https://github.com/maruthamuthu/utils/files/1194824/utils-1.0.jar.zip)
 ##### [Older version of utils jar](https://github.com/maruthamuthu/utils/issues/6)
 
 ## 1. HTTPS
@@ -17,7 +17,11 @@
       The Core properties is a singleton class. It is used to initialize, set and get the property 
       across the java application.
 ## 3. String
-      The StringUtil class is used to hold the string utility functions.
+        i. StringsUtil 
+            This class is used to hold the string utility functions. Like isEmpty, isNotEmpty with null check.
+        ii. StringAppender
+             This is class used to addend the object, char into StringBuilder. It has a utility of append with traling space,
+             lead space, etc.
 ## 4. Exception
         i. CoreException
             This class is used to throw the error with error code, so that application can esily 
