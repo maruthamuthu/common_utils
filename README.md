@@ -1,8 +1,8 @@
-# utils
+# Common Utils
 
 ### This repo contains following utility class.
-##### [Download the latest utils jar](https://docs.zoho.com/file/3ory8cd41b6871dd04522b94692479bd50f14)
-##### [Older version of utils jar](https://github.com/maruthamuthu/utils/wiki/Util-jar-Downloads)
+##### [Download the latest utils jar](https://docs.zoho.com/file/3oxe04fa5c63167a94db5927c6f8996e1c6ce)
+##### [Older version of utils jar](https://github.com/maruthamuthu/common_utils/wiki/Jar-Downloads)
 
 ## 1. HTTPS
       This package contains following classes.
@@ -14,7 +14,7 @@
          iii.Connector
                 This class is used to invoke the call based on the HTTPProperties.
 ## 2. Proprties
-      The Core properties is a singleton class. It is used to initialize, set and get the property 
+      The Core properties is used to initialize, set and get the property 
       across the java application.
 ## 3. String
         i. StringsUtil 
