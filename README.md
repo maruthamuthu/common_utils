@@ -20,8 +20,8 @@
         i. StringsUtil 
             This class is used to hold the string utility functions. Like isEmpty, isNotEmpty with null check.
         ii. StringAppender
-             This is class used to addend the object, char into StringBuilder. It has a utility of append with traling space,
-             lead space, etc.
+             This is class used to addend the object, char into StringBuilder. It has a utility of append 
+             with traling space, lead space and etc.
 ## 4. Exception
         i. CoreException
             This class is used to throw the error with error code, so that application can esily 
